@@ -387,6 +387,288 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unable to save the code. Please try again.'**
   String get pinSaveError;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @settingsGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get settingsGeneral;
+
+  /// No description provided for @settingsSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get settingsSecurity;
+
+  /// No description provided for @settingsAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get settingsAbout;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @languageUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Language updated.'**
+  String get languageUpdated;
+
+  /// No description provided for @changePin.
+  ///
+  /// In en, this message translates to:
+  /// **'Change code'**
+  String get changePin;
+
+  /// No description provided for @changePinDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Update the code used to unlock after an alarm.'**
+  String get changePinDescription;
+
+  /// No description provided for @changePinCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Current code'**
+  String get changePinCurrent;
+
+  /// No description provided for @changePinCurrentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your current 4-digit code.'**
+  String get changePinCurrentHint;
+
+  /// No description provided for @changePinNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New code'**
+  String get changePinNew;
+
+  /// No description provided for @changePinNewHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a new 4-digit code.'**
+  String get changePinNewHint;
+
+  /// No description provided for @pinChangedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Code updated successfully.'**
+  String get pinChangedSuccess;
+
+  /// No description provided for @versionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}'**
+  String versionLabel(String version);
+
+  /// No description provided for @copyright.
+  ///
+  /// In en, this message translates to:
+  /// **'© 2026 Alban M\'lan'**
+  String get copyright;
+
+  /// No description provided for @settingsDetection.
+  ///
+  /// In en, this message translates to:
+  /// **'Detection'**
+  String get settingsDetection;
+
+  /// No description provided for @settingsPerformance.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance'**
+  String get settingsPerformance;
+
+  /// No description provided for @sensitivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Sensitivity'**
+  String get sensitivity;
+
+  /// No description provided for @sensitivityDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Low reduces false alarms. High detects smaller movements.'**
+  String get sensitivityDescription;
+
+  /// No description provided for @sensitivityLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low (fewer false alarms)'**
+  String get sensitivityLow;
+
+  /// No description provided for @sensitivityMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium (balanced)'**
+  String get sensitivityMedium;
+
+  /// No description provided for @sensitivityHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High (more reactive)'**
+  String get sensitivityHigh;
+
+  /// No description provided for @recalibrate.
+  ///
+  /// In en, this message translates to:
+  /// **'Recalibrate sensors'**
+  String get recalibrate;
+
+  /// No description provided for @recalibrateDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Place the phone flat, then recalibrate the baseline.'**
+  String get recalibrateDescription;
+
+  /// No description provided for @recalibrateSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Sensors recalibrated.'**
+  String get recalibrateSuccess;
+
+  /// No description provided for @recalibrateRequiresArmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable protection first to recalibrate.'**
+  String get recalibrateRequiresArmed;
+
+  /// No description provided for @intrusionHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Intrusion history'**
+  String get intrusionHistory;
+
+  /// No description provided for @intrusionHistoryDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'View when the alarm was triggered.'**
+  String get intrusionHistoryDescription;
+
+  /// No description provided for @intrusionHistoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No intrusions recorded yet.'**
+  String get intrusionHistoryEmpty;
+
+  /// No description provided for @intrusionHistoryCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No intrusions} =1{1 intrusion} other{{count} intrusions}}'**
+  String intrusionHistoryCount(int count);
+
+  /// No description provided for @intrusionPhotoCaptured.
+  ///
+  /// In en, this message translates to:
+  /// **'Discrete photo captured'**
+  String get intrusionPhotoCaptured;
+
+  /// No description provided for @intrusionPhotoMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'No photo captured'**
+  String get intrusionPhotoMissing;
+
+  /// No description provided for @clearHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear history'**
+  String get clearHistory;
+
+  /// No description provided for @clearHistoryConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all intrusion records?'**
+  String get clearHistoryConfirm;
+
+  /// No description provided for @historyCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'History cleared.'**
+  String get historyCleared;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @batteryOptimization.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery optimization'**
+  String get batteryOptimization;
+
+  /// No description provided for @batteryOptimizationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Prevent Android from stopping Dontach in the background.'**
+  String get batteryOptimizationDescription;
+
+  /// No description provided for @batteryOptimizationEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery restrictions disabled for Dontach.'**
+  String get batteryOptimizationEnabled;
+
+  /// No description provided for @batteryOptimizationDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Dontach may be stopped in the background.'**
+  String get batteryOptimizationDisabled;
+
+  /// No description provided for @batteryGuideTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery guide'**
+  String get batteryGuideTitle;
+
+  /// No description provided for @batteryGuideStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap \"Allow Dontach\" below to request an exemption.'**
+  String get batteryGuideStep1;
+
+  /// No description provided for @batteryGuideStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'If a popup appears, choose Allow or Don\'t optimize.'**
+  String get batteryGuideStep2;
+
+  /// No description provided for @batteryGuideStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'On Pixel: Settings → Apps → Dontach → Battery → Unrestricted.'**
+  String get batteryGuideStep3;
+
+  /// No description provided for @batteryGuideStep4.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep Dontach open or pinned while protection is active.'**
+  String get batteryGuideStep4;
+
+  /// No description provided for @batteryOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open battery settings'**
+  String get batteryOpenSettings;
+
+  /// No description provided for @batteryRequestExemption.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow Dontach (no restriction)'**
+  String get batteryRequestExemption;
 }
 
 class _AppLocalizationsDelegate

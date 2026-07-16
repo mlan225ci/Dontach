@@ -61,6 +61,11 @@ class _LockScreenState extends State<LockScreen> {
 
       if (valid) {
         await _coordinator.completeUnlock();
+        if (!mounted) return;
+        setState(() {
+          _isVerifying = false;
+          _currentPin = '';
+        });
         return;
       }
 

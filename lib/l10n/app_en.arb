@@ -53,5 +53,62 @@
   "phoneLockedNotification": "Phone locked",
   "lockdownChannelName": "Dontach lockdown",
   "lockdownChannelDescription": "Notification shown while the phone is locked after an alarm.",
-  "pinSaveError": "Unable to save the code. Please try again."
+  "pinSaveError": "Unable to save the code. Please try again.",
+  "settings": "Settings",
+  "settingsGeneral": "General",
+  "settingsSecurity": "Security",
+  "settingsAbout": "About",
+  "language": "Language",
+  "languageUpdated": "Language updated.",
+  "changePin": "Change code",
+  "changePinDescription": "Update the code used to unlock after an alarm.",
+  "changePinCurrent": "Current code",
+  "changePinCurrentHint": "Enter your current 4-digit code.",
+  "changePinNew": "New code",
+  "changePinNewHint": "Choose a new 4-digit code.",
+  "pinChangedSuccess": "Code updated successfully.",
+  "versionLabel": "Version {version}",
+  "@versionLabel": {
+    "placeholders": {
+      "version": {"type": "String"}
+    }
+  },
+  "copyright": "© 2026 Alban M'lan",
+  "settingsDetection": "Detection",
+  "settingsPerformance": "Performance",
+  "sensitivity": "Sensitivity",
+  "sensitivityDescription": "Low reduces false alarms. High detects smaller movements.",
+  "sensitivityLow": "Low (fewer false alarms)",
+  "sensitivityMedium": "Medium (balanced)",
+  "sensitivityHigh": "High (more reactive)",
+  "recalibrate": "Recalibrate sensors",
+  "recalibrateDescription": "Place the phone flat, then recalibrate the baseline.",
+  "recalibrateSuccess": "Sensors recalibrated.",
+  "recalibrateRequiresArmed": "Enable protection first to recalibrate.",
+  "intrusionHistory": "Intrusion history",
+  "intrusionHistoryDescription": "View when the alarm was triggered.",
+  "intrusionHistoryEmpty": "No intrusions recorded yet.",
+  "intrusionHistoryCount": "{count, plural, =0{No intrusions} =1{1 intrusion} other{{count} intrusions}}",
+  "@intrusionHistoryCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "intrusionPhotoCaptured": "Discrete photo captured",
+  "intrusionPhotoMissing": "No photo captured",
+  "clearHistory": "Clear history",
+  "clearHistoryConfirm": "Delete all intrusion records?",
+  "historyCleared": "History cleared.",
+  "cancel": "Cancel",
+  "batteryOptimization": "Battery optimization",
+  "batteryOptimizationDescription": "Prevent Android from stopping Dontach in the background.",
+  "batteryOptimizationEnabled": "Battery restrictions disabled for Dontach.",
+  "batteryOptimizationDisabled": "Dontach may be stopped in the background.",
+  "batteryGuideTitle": "Battery guide",
+  "batteryGuideStep1": "Tap \"Allow Dontach\" below to request an exemption.",
+  "batteryGuideStep2": "If a popup appears, choose Allow or Don't optimize.",
+  "batteryGuideStep3": "On Pixel: Settings → Apps → Dontach → Battery → Unrestricted.",
+  "batteryGuideStep4": "Keep Dontach open or pinned while protection is active.",
+  "batteryOpenSettings": "Open battery settings",
+  "batteryRequestExemption": "Allow Dontach (no restriction)"
 }

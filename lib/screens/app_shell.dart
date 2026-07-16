@@ -73,10 +73,14 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
     }
   }
 
-  Future<void> _handleLocaleSelected(Locale locale) async {
+  Future<void> _updateLocale(Locale locale) async {
     await widget.localeStorage.save(locale);
     widget.onLocaleChanged(locale);
     await LockdownNotificationService.instance.setLocale(locale);
+  }
+
+  Future<void> _handleLocaleSelected(Locale locale) async {
+    await _updateLocale(locale);
     setState(() => _hasLocale = true);
     if (_hasPin) {
       await ProtectionCoordinator.instance.initialize();
@@ -128,6 +132,8 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
       return const LockScreen();
     }
 
-    return const HomeScreen();
+    return HomeScreen(
+      onLocaleChanged: _updateLocale,
+    );
   }
 }

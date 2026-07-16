@@ -13,8 +13,16 @@ class MotionDetector {
   double _baselineZ = 0;
   bool _triggered = false;
 
-  static const _rotationThreshold = 2.5;
-  static const _angleThreshold = 25.0;
+  double _rotationThreshold = 2.5;
+  double _angleThreshold = 25.0;
+
+  void applyThresholds({
+    required double rotationThreshold,
+    required double angleThreshold,
+  }) {
+    _rotationThreshold = rotationThreshold;
+    _angleThreshold = angleThreshold;
+  }
 
   Future<void> calibrate() async {
     _triggered = false;

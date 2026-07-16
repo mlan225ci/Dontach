@@ -47,5 +47,62 @@
   "phoneLockedNotification": "Téléphone verrouillé",
   "lockdownChannelName": "Verrouillage Dontach",
   "lockdownChannelDescription": "Notification affichée pendant le verrouillage après une alarme.",
-  "pinSaveError": "Impossible d'enregistrer le code. Réessayez."
+  "pinSaveError": "Impossible d'enregistrer le code. Réessayez.",
+  "settings": "Réglages",
+  "settingsGeneral": "Général",
+  "settingsSecurity": "Sécurité",
+  "settingsAbout": "À propos",
+  "language": "Langue",
+  "languageUpdated": "Langue mise à jour.",
+  "changePin": "Modifier le code",
+  "changePinDescription": "Change le code utilisé pour déverrouiller après une alarme.",
+  "changePinCurrent": "Code actuel",
+  "changePinCurrentHint": "Entrez votre code actuel à 4 chiffres.",
+  "changePinNew": "Nouveau code",
+  "changePinNewHint": "Choisissez un nouveau code à 4 chiffres.",
+  "pinChangedSuccess": "Code modifié avec succès.",
+  "versionLabel": "Version {version}",
+  "@versionLabel": {
+    "placeholders": {
+      "version": {"type": "String"}
+    }
+  },
+  "copyright": "© 2026 Alban M'lan",
+  "settingsDetection": "Détection",
+  "settingsPerformance": "Performance",
+  "sensitivity": "Sensibilité",
+  "sensitivityDescription": "Faible réduit les fausses alarmes. Élevée détecte les petits mouvements.",
+  "sensitivityLow": "Faible (moins de faux positifs)",
+  "sensitivityMedium": "Moyenne (équilibrée)",
+  "sensitivityHigh": "Élevée (plus réactive)",
+  "recalibrate": "Recalibrer les capteurs",
+  "recalibrateDescription": "Posez le téléphone à plat, puis recalibrez la base.",
+  "recalibrateSuccess": "Capteurs recalibrés.",
+  "recalibrateRequiresArmed": "Activez d'abord la protection pour recalibrer.",
+  "intrusionHistory": "Historique des intrusions",
+  "intrusionHistoryDescription": "Voir quand l'alarme s'est déclenchée.",
+  "intrusionHistoryEmpty": "Aucune intrusion enregistrée.",
+  "intrusionHistoryCount": "{count, plural, =0{Aucune intrusion} =1{1 intrusion} other{{count} intrusions}}",
+  "@intrusionHistoryCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "intrusionPhotoCaptured": "Photo discrète capturée",
+  "intrusionPhotoMissing": "Aucune photo capturée",
+  "clearHistory": "Effacer l'historique",
+  "clearHistoryConfirm": "Supprimer tous les enregistrements d'intrusion ?",
+  "historyCleared": "Historique effacé.",
+  "cancel": "Annuler",
+  "batteryOptimization": "Optimisation batterie",
+  "batteryOptimizationDescription": "Empêche Android d'arrêter Dontach en arrière-plan.",
+  "batteryOptimizationEnabled": "Restrictions batterie désactivées pour Dontach.",
+  "batteryOptimizationDisabled": "Dontach peut être arrêté en arrière-plan.",
+  "batteryGuideTitle": "Guide batterie",
+  "batteryGuideStep1": "Appuyez sur « Autoriser Dontach » ci-dessous pour demander une exemption.",
+  "batteryGuideStep2": "Si une fenêtre s'ouvre, choisissez Autoriser ou Ne pas optimiser.",
+  "batteryGuideStep3": "Sur Pixel : Paramètres → Apps → Dontach → Batterie → Sans restriction.",
+  "batteryGuideStep4": "Gardez Dontach ouvert pendant que la protection est active.",
+  "batteryOpenSettings": "Ouvrir les paramètres batterie",
+  "batteryRequestExemption": "Autoriser Dontach (sans restriction)"
 }

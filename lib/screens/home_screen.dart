@@ -3,12 +3,18 @@ import 'package:dontach/l10n/app_localizations.dart';
 
 import '../models/capture_settings.dart';
 import '../services/protection_coordinator.dart';
+import '../screens/settings_screen.dart';
 import '../widgets/capture_panel.dart';
 import '../widgets/power_switch.dart';
 import '../widgets/schedule_panel.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({
+    super.key,
+    required this.onLocaleChanged,
+  });
+
+  final Future<void> Function(Locale) onLocaleChanged;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -62,6 +68,16 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void _openSettings() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => SettingsScreen(
+          onLocaleChanged: widget.onLocaleChanged,
+        ),
+      ),
+    );
+  }
+
   @override
   void dispose() {
     _coordinator.removeListener(_onCoordinatorChanged);
@@ -112,71 +128,87 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
-            return Center(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: constraints.maxHeight - 40,
-                    maxWidth: 420,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        l10n.appTitle,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w800,
-                              letterSpacing: 0.5,
+            return Stack(
+              children: [
+                Center(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight - 40,
+                        maxWidth: 420,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            l10n.appTitle,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w800,
+                                  letterSpacing: 0.5,
+                                ),
+                          ),
+                          const SizedBox(height: 10),
+                          AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 250),
+                            child: Text(
+                              _statusText(l10n),
+                              key: ValueKey(_statusText(l10n)),
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    color: Colors.white.withValues(alpha: 0.78),
+                                    fontWeight: FontWeight.w500,
+                                  ),
                             ),
-                      ),
-                      const SizedBox(height: 10),
-                      AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 250),
-                        child: Text(
-                          _statusText(l10n),
-                          key: ValueKey(_statusText(l10n)),
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                color: Colors.white.withValues(alpha: 0.78),
-                                fontWeight: FontWeight.w500,
-                              ),
-                        ),
-                      ),
-                      const SizedBox(height: 40),
-                      Center(
-                        child: PowerSwitch(
-                          value: _coordinator.isArmed || _coordinator.isAlarmRinging,
-                          isLoading: _coordinator.isCalibrating,
-                          onChanged: _onSwitchChanged,
-                        ),
-                      ),
-                      const SizedBox(height: 28),
-                      Text(
-                        _helperText(l10n),
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Colors.white.withValues(alpha: 0.58),
-                              height: 1.5,
+                          ),
+                          const SizedBox(height: 40),
+                          Center(
+                            child: PowerSwitch(
+                              value: _coordinator.isArmed || _coordinator.isAlarmRinging,
+                              isLoading: _coordinator.isCalibrating,
+                              onChanged: _onSwitchChanged,
                             ),
+                          ),
+                          const SizedBox(height: 28),
+                          Text(
+                            _helperText(l10n),
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: Colors.white.withValues(alpha: 0.58),
+                                  height: 1.5,
+                                ),
+                          ),
+                          const SizedBox(height: 16),
+                          CapturePanel(
+                            settings: _coordinator.captureSettings,
+                            onChanged: _updateCaptureSettings,
+                          ),
+                          const SizedBox(height: 16),
+                          SchedulePanel(
+                            config: _coordinator.schedule,
+                            onChanged: _coordinator.updateSchedule,
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 16),
-                      CapturePanel(
-                        settings: _coordinator.captureSettings,
-                        onChanged: _updateCaptureSettings,
-                      ),
-                      const SizedBox(height: 16),
-                      SchedulePanel(
-                        config: _coordinator.schedule,
-                        onChanged: _coordinator.updateSchedule,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+                Positioned(
+                  top: 4,
+                  right: 8,
+                  child: IconButton(
+                    tooltip: l10n.settings,
+                    onPressed: _openSettings,
+                    icon: Icon(
+                      Icons.settings_rounded,
+                      color: Colors.white.withValues(alpha: 0.75),
+                    ),
+                  ),
+                ),
+              ],
             );
           },
         ),

@@ -160,4 +160,168 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get pinSaveError =>
       'No se pudo guardar el código. Inténtalo de nuevo.';
+
+  @override
+  String get settings => 'Ajustes';
+
+  @override
+  String get settingsGeneral => 'General';
+
+  @override
+  String get settingsSecurity => 'Seguridad';
+
+  @override
+  String get settingsAbout => 'Acerca de';
+
+  @override
+  String get language => 'Idioma';
+
+  @override
+  String get languageUpdated => 'Idioma actualizado.';
+
+  @override
+  String get changePin => 'Cambiar código';
+
+  @override
+  String get changePinDescription =>
+      'Actualiza el código para desbloquear tras una alarma.';
+
+  @override
+  String get changePinCurrent => 'Código actual';
+
+  @override
+  String get changePinCurrentHint => 'Introduce tu código actual de 4 dígitos.';
+
+  @override
+  String get changePinNew => 'Nuevo código';
+
+  @override
+  String get changePinNewHint => 'Elige un nuevo código de 4 dígitos.';
+
+  @override
+  String get pinChangedSuccess => 'Código actualizado correctamente.';
+
+  @override
+  String versionLabel(String version) {
+    return 'Versión $version';
+  }
+
+  @override
+  String get copyright => '© 2026 Alban M\'lan';
+
+  @override
+  String get settingsDetection => 'Detección';
+
+  @override
+  String get settingsPerformance => 'Rendimiento';
+
+  @override
+  String get sensitivity => 'Sensibilidad';
+
+  @override
+  String get sensitivityDescription =>
+      'Baja reduce falsas alarmas. Alta detecta movimientos pequeños.';
+
+  @override
+  String get sensitivityLow => 'Baja (menos falsos positivos)';
+
+  @override
+  String get sensitivityMedium => 'Media (equilibrada)';
+
+  @override
+  String get sensitivityHigh => 'Alta (más reactiva)';
+
+  @override
+  String get recalibrate => 'Recalibrar sensores';
+
+  @override
+  String get recalibrateDescription =>
+      'Coloca el teléfono en plano y recalibra la base.';
+
+  @override
+  String get recalibrateSuccess => 'Sensores recalibrados.';
+
+  @override
+  String get recalibrateRequiresArmed =>
+      'Activa primero la protección para recalibrar.';
+
+  @override
+  String get intrusionHistory => 'Historial de intrusiones';
+
+  @override
+  String get intrusionHistoryDescription => 'Ver cuándo se activó la alarma.';
+
+  @override
+  String get intrusionHistoryEmpty => 'Ninguna intrusión registrada.';
+
+  @override
+  String intrusionHistoryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count intrusiones',
+      one: '1 intrusión',
+      zero: 'Sin intrusiones',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get intrusionPhotoCaptured => 'Foto discreta capturada';
+
+  @override
+  String get intrusionPhotoMissing => 'Sin foto capturada';
+
+  @override
+  String get clearHistory => 'Borrar historial';
+
+  @override
+  String get clearHistoryConfirm =>
+      '¿Eliminar todos los registros de intrusión?';
+
+  @override
+  String get historyCleared => 'Historial borrado.';
+
+  @override
+  String get cancel => 'Cancelar';
+
+  @override
+  String get batteryOptimization => 'Optimización de batería';
+
+  @override
+  String get batteryOptimizationDescription =>
+      'Evita que Android detenga Dontach en segundo plano.';
+
+  @override
+  String get batteryOptimizationEnabled =>
+      'Restricciones de batería desactivadas para Dontach.';
+
+  @override
+  String get batteryOptimizationDisabled =>
+      'Dontach puede detenerse en segundo plano.';
+
+  @override
+  String get batteryGuideTitle => 'Guía de batería';
+
+  @override
+  String get batteryGuideStep1 =>
+      'Pulsa « Permitir Dontach » abajo para solicitar una exención.';
+
+  @override
+  String get batteryGuideStep2 =>
+      'Si aparece un popup, elige Permitir o No optimizar.';
+
+  @override
+  String get batteryGuideStep3 =>
+      'En Pixel: Ajustes → Apps → Dontach → Batería → Sin restricciones.';
+
+  @override
+  String get batteryGuideStep4 =>
+      'Mantén Dontach abierto mientras la protección esté activa.';
+
+  @override
+  String get batteryOpenSettings => 'Abrir ajustes de batería';
+
+  @override
+  String get batteryRequestExemption => 'Permitir Dontach (sin restricción)';
 }
