@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../screens/splash_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/language_selection_screen.dart';
 import '../screens/lock_screen.dart';
@@ -25,7 +26,7 @@ class AppShell extends StatefulWidget {
 }
 
 class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
-  final PinService _pinService = PinService();
+  final PinService _pinService = PinService.instance;
   final LockdownService _lockdown = LockdownService.instance;
   final ProtectionCoordinator _coordinator = ProtectionCoordinator.instance;
 
@@ -44,12 +45,14 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
 
   Future<void> _bootstrap() async {
     try {
+      final minSplash = Future<void>.delayed(const Duration(milliseconds: 1600));
       await LockdownNotificationService.instance.initialize();
       final locale = await widget.localeStorage.load();
       final hasPin = await _pinService.hasPin().timeout(
         const Duration(seconds: 2),
         onTimeout: () => false,
       );
+      await minSplash;
       if (!mounted) return;
       if (locale != null) {
         widget.onLocaleChanged(locale);
@@ -114,10 +117,7 @@ class _AppShellState extends State<AppShell> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     if (_loading) {
-      return const Scaffold(
-        backgroundColor: Color(0xFF121212),
-        body: Center(child: CircularProgressIndicator(color: Colors.white)),
-      );
+      return const SplashScreen();
     }
 
     if (!_hasLocale) {

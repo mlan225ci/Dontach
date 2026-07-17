@@ -669,6 +669,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Allow Dontach (no restriction)'**
   String get batteryRequestExemption;
+
+  /// No description provided for @protectionMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Protection mode'**
+  String get protectionMode;
+
+  /// No description provided for @modeTable.
+  ///
+  /// In en, this message translates to:
+  /// **'On table'**
+  String get modeTable;
+
+  /// No description provided for @modePocket.
+  ///
+  /// In en, this message translates to:
+  /// **'In pocket'**
+  String get modePocket;
+
+  /// No description provided for @modeTableDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone flat on a surface. Alarm triggers when lifted.'**
+  String get modeTableDescription;
+
+  /// No description provided for @modePocketDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone in pocket or bag. Alarm triggers on snatch or extraction.'**
+  String get modePocketDescription;
+
+  /// No description provided for @protectionActivePocket.
+  ///
+  /// In en, this message translates to:
+  /// **'Pocket protection active'**
+  String get protectionActivePocket;
+
+  /// No description provided for @calibratingPocket.
+  ///
+  /// In en, this message translates to:
+  /// **'Calibrating in pocket...'**
+  String get calibratingPocket;
+
+  /// No description provided for @placePhoneInPocket.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the phone in your pocket.\nThe alarm triggers if it is removed.'**
+  String get placePhoneInPocket;
+
+  /// No description provided for @recalibratePocketDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the phone still in your pocket, then recalibrate.'**
+  String get recalibratePocketDescription;
+
+  /// No description provided for @settingsAlarm.
+  ///
+  /// In en, this message translates to:
+  /// **'Alarm'**
+  String get settingsAlarm;
+
+  /// No description provided for @alarmVolume.
+  ///
+  /// In en, this message translates to:
+  /// **'Alarm volume'**
+  String get alarmVolume;
+
+  /// No description provided for @alarmVolumeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust the siren volume when an intrusion is detected.'**
+  String get alarmVolumeDescription;
+
+  /// No description provided for @testAlarmVolume.
+  ///
+  /// In en, this message translates to:
+  /// **'Test volume'**
+  String get testAlarmVolume;
+
+  /// No description provided for @volumeMin.
+  ///
+  /// In en, this message translates to:
+  /// **'0%'**
+  String get volumeMin;
+
+  /// No description provided for @volumeMax.
+  ///
+  /// In en, this message translates to:
+  /// **'100%'**
+  String get volumeMax;
+
+  /// No description provided for @volumeMuted.
+  ///
+  /// In en, this message translates to:
+  /// **'Muted'**
+  String get volumeMuted;
+
+  /// No description provided for @volumeKnobHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn the knob or use − / +'**
+  String get volumeKnobHint;
+
+  /// No description provided for @pocketPlacementHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Place the phone in your pocket or bag.\nCalibration starts in a few seconds…'**
+  String get pocketPlacementHint;
+
+  /// No description provided for @pocketPlacementCountdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Place in pocket… {seconds}s'**
+  String pocketPlacementCountdown(int seconds);
+
+  /// No description provided for @tablePlacementHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Place the phone flat on the table.\nCalibration starts in a few seconds…'**
+  String get tablePlacementHint;
+
+  /// No description provided for @tablePlacementCountdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Place flat… {seconds}s'**
+  String tablePlacementCountdown(int seconds);
 }
 
 class _AppLocalizationsDelegate

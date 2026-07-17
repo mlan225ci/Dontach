@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:dontach/l10n/app_localizations.dart';
 
 import '../models/capture_settings.dart';
+import '../models/sensitivity_settings.dart';
 import '../services/protection_coordinator.dart';
 import '../screens/settings_screen.dart';
 import '../widgets/capture_panel.dart';
+import '../widgets/detection_mode_panel.dart';
 import '../widgets/power_switch.dart';
 import '../widgets/schedule_panel.dart';
 
@@ -85,9 +87,23 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   String _statusText(AppLocalizations l10n) {
-    if (_coordinator.isCalibrating) return l10n.calibrating;
+    if (_coordinator.isPlacementPending) {
+      if (_coordinator.sensitivitySettings.mode == ProtectionMode.pocket) {
+        return l10n.pocketPlacementCountdown(_coordinator.placementCountdown);
+      }
+      return l10n.tablePlacementCountdown(_coordinator.placementCountdown);
+    }
+    if (_coordinator.isCalibrating) {
+      return _coordinator.sensitivitySettings.mode == ProtectionMode.pocket
+          ? l10n.calibratingPocket
+          : l10n.calibrating;
+    }
     if (_coordinator.isAlarmRinging) return l10n.locked;
-    if (_coordinator.isArmed) return l10n.protectionActive;
+    if (_coordinator.isArmed) {
+      return _coordinator.sensitivitySettings.mode == ProtectionMode.pocket
+          ? l10n.protectionActivePocket
+          : l10n.protectionActive;
+    }
     if (_coordinator.schedule.enabled &&
         _coordinator.schedule.isActiveAt(DateTime.now())) {
       return l10n.schedulePending;
@@ -96,11 +112,18 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   String _helperText(AppLocalizations l10n) {
+    if (_coordinator.isPlacementPending) {
+      return _coordinator.sensitivitySettings.mode == ProtectionMode.pocket
+          ? l10n.pocketPlacementHint
+          : l10n.tablePlacementHint;
+    }
     if (_coordinator.isAlarmRinging) {
       return l10n.enterCodeToUnlock;
     }
     if (_coordinator.isArmed) {
-      return l10n.placePhoneFlat;
+      return _coordinator.sensitivitySettings.mode == ProtectionMode.pocket
+          ? l10n.placePhoneInPocket
+          : l10n.placePhoneFlat;
     }
     if (_coordinator.schedule.enabled) {
       final weekdays = _weekdayLabels(l10n);
@@ -167,8 +190,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           const SizedBox(height: 40),
                           Center(
                             child: PowerSwitch(
-                              value: _coordinator.isArmed || _coordinator.isAlarmRinging,
-                              isLoading: _coordinator.isCalibrating,
+                              value: _coordinator.isArmed ||
+                                  _coordinator.isAlarmRinging ||
+                                  _coordinator.isPlacementPending,
+                              isLoading: _coordinator.isCalibrating ||
+                                  _coordinator.isPlacementPending,
                               onChanged: _onSwitchChanged,
                             ),
                           ),
@@ -180,6 +206,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: Colors.white.withValues(alpha: 0.58),
                                   height: 1.5,
                                 ),
+                          ),
+                          const SizedBox(height: 16),
+                          DetectionModePanel(
+                            settings: _coordinator.sensitivitySettings,
+                            enabled: !_coordinator.isArmed &&
+                                !_coordinator.isCalibrating &&
+                                !_coordinator.isAlarmRinging &&
+                                !_coordinator.isPlacementPending,
+                            onChanged: _coordinator.updateProtectionMode,
                           ),
                           const SizedBox(height: 16),
                           CapturePanel(

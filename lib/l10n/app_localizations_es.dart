@@ -324,4 +324,78 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get batteryRequestExemption => 'Permitir Dontach (sin restricción)';
+
+  @override
+  String get protectionMode => 'Modo de protección';
+
+  @override
+  String get modeTable => 'En mesa';
+
+  @override
+  String get modePocket => 'En bolsillo';
+
+  @override
+  String get modeTableDescription =>
+      'Teléfono en plano sobre una superficie. La alarma se activa si se levanta.';
+
+  @override
+  String get modePocketDescription =>
+      'Teléfono en bolsillo o bolso. La alarma se activa si lo arrancan o lo sacan.';
+
+  @override
+  String get protectionActivePocket => 'Protección de bolsillo activa';
+
+  @override
+  String get calibratingPocket => 'Calibrando en bolsillo...';
+
+  @override
+  String get placePhoneInPocket =>
+      'Mantén el teléfono en el bolsillo.\nLa alarma se activa si lo sacan.';
+
+  @override
+  String get recalibratePocketDescription =>
+      'Mantén el teléfono quieto en el bolsillo y recalibra.';
+
+  @override
+  String get settingsAlarm => 'Alarma';
+
+  @override
+  String get alarmVolume => 'Volumen de la alarma';
+
+  @override
+  String get alarmVolumeDescription =>
+      'Ajusta el volumen de la sirena cuando se detecta una intrusión.';
+
+  @override
+  String get testAlarmVolume => 'Probar volumen';
+
+  @override
+  String get volumeMin => '0 %';
+
+  @override
+  String get volumeMax => '100 %';
+
+  @override
+  String get volumeMuted => 'Silencio';
+
+  @override
+  String get volumeKnobHint => 'Gira el mando o usa − / +';
+
+  @override
+  String get pocketPlacementHint =>
+      'Coloca el teléfono en el bolsillo o bolso.\nLa calibración empieza en unos segundos…';
+
+  @override
+  String pocketPlacementCountdown(int seconds) {
+    return 'Coloca en bolsillo… $seconds s';
+  }
+
+  @override
+  String get tablePlacementHint =>
+      'Coloca el teléfono en plano sobre la mesa.\nLa calibración empieza en unos segundos…';
+
+  @override
+  String tablePlacementCountdown(int seconds) {
+    return 'Coloca en plano… $seconds s';
+  }
 }

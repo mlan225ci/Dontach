@@ -110,5 +110,36 @@
   "batteryGuideStep3": "On Pixel: Settings → Apps → Dontach → Battery → Unrestricted.",
   "batteryGuideStep4": "Keep Dontach open or pinned while protection is active.",
   "batteryOpenSettings": "Open battery settings",
-  "batteryRequestExemption": "Allow Dontach (no restriction)"
+  "batteryRequestExemption": "Allow Dontach (no restriction)",
+  "protectionMode": "Protection mode",
+  "modeTable": "On table",
+  "modePocket": "In pocket",
+  "modeTableDescription": "Phone flat on a surface. Alarm triggers when lifted.",
+  "modePocketDescription": "Phone in pocket or bag. Alarm triggers on snatch or extraction.",
+  "protectionActivePocket": "Pocket protection active",
+  "calibratingPocket": "Calibrating in pocket...",
+  "placePhoneInPocket": "Keep the phone in your pocket.\nThe alarm triggers if it is removed.",
+  "recalibratePocketDescription": "Keep the phone still in your pocket, then recalibrate.",
+  "settingsAlarm": "Alarm",
+  "alarmVolume": "Alarm volume",
+  "alarmVolumeDescription": "Adjust the siren volume when an intrusion is detected.",
+  "testAlarmVolume": "Test volume",
+  "volumeMin": "0%",
+  "volumeMax": "100%",
+  "volumeMuted": "Muted",
+  "volumeKnobHint": "Turn the knob or use − / +",
+  "pocketPlacementHint": "Place the phone in your pocket or bag.\nCalibration starts in a few seconds…",
+  "pocketPlacementCountdown": "Place in pocket… {seconds}s",
+  "@pocketPlacementCountdown": {
+    "placeholders": {
+      "seconds": {"type": "int"}
+    }
+  },
+  "tablePlacementHint": "Place the phone flat on the table.\nCalibration starts in a few seconds…",
+  "tablePlacementCountdown": "Place flat… {seconds}s",
+  "@tablePlacementCountdown": {
+    "placeholders": {
+      "seconds": {"type": "int"}
+    }
+  }
 }

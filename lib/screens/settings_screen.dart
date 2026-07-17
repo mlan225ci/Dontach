@@ -3,6 +3,7 @@ import 'package:dontach/l10n/app_localizations.dart';
 
 import '../models/sensitivity_settings.dart';
 import '../services/protection_coordinator.dart';
+import '../widgets/volume_panel.dart';
 import 'battery_guide_screen.dart';
 import 'change_pin_screen.dart';
 import 'intrusion_history_screen.dart';
@@ -80,7 +81,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future<void> _selectSensitivity(SensitivityLevel level) async {
-    await _coordinator.updateSensitivity(SensitivitySettings(level: level));
+    await _coordinator.updateSensitivity(
+      _coordinator.sensitivitySettings.copyWith(level: level),
+    );
+  }
+
+  Future<void> _selectMode(ProtectionMode mode) async {
+    await _coordinator.updateProtectionMode(mode);
+  }
+
+  String _modeLabel(AppLocalizations l10n, ProtectionMode mode) {
+    switch (mode) {
+      case ProtectionMode.table:
+        return l10n.modeTable;
+      case ProtectionMode.pocket:
+        return l10n.modePocket;
+    }
   }
 
   Future<void> _recalibrate(AppLocalizations l10n) async {
@@ -103,6 +119,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final l10n = AppLocalizations.of(context)!;
     final currentLocale = Localizations.localeOf(context);
     final currentSensitivity = _coordinator.sensitivitySettings.level;
+    final currentMode = _coordinator.sensitivitySettings.mode;
+    final canEditDetection = !_coordinator.isArmed &&
+        !_coordinator.isCalibrating &&
+        !_coordinator.isAlarmRinging &&
+        !_coordinator.isPlacementPending;
 
     return Scaffold(
       backgroundColor: const Color(0xFF121212),
@@ -117,6 +138,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         children: [
+          _SectionHeader(title: l10n.settingsAlarm),
+          VolumePanel(
+            settings: _coordinator.alarmSettings,
+            onChanged: _coordinator.updateAlarmSettings,
+          ),
+          const SizedBox(height: 20),
           _SectionHeader(title: l10n.settingsGeneral),
           _SettingsCard(
             child: Column(
@@ -164,6 +191,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
                   child: Text(
+                    l10n.protectionMode,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                  child: Text(
+                    currentMode == ProtectionMode.pocket
+                        ? l10n.modePocketDescription
+                        : l10n.modeTableDescription,
+                    style: TextStyle(color: Colors.white.withValues(alpha: 0.55), height: 1.4),
+                  ),
+                ),
+                ...ProtectionMode.values.map((mode) {
+                  final selected = mode == currentMode;
+                  return ListTile(
+                    enabled: canEditDetection,
+                    title: Text(
+                      _modeLabel(l10n, mode),
+                      style: TextStyle(color: Colors.white.withValues(alpha: 0.92)),
+                    ),
+                    trailing: selected
+                        ? const Icon(Icons.check_rounded, color: Color(0xFF2E7D32))
+                        : null,
+                    onTap: canEditDetection ? () => _selectMode(mode) : null,
+                  );
+                }),
+                const Divider(height: 1, color: Color(0x22FFFFFF)),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+                  child: Text(
                     l10n.sensitivity,
                     style: const TextStyle(
                       color: Colors.white,
@@ -201,7 +263,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
                   ),
                   subtitle: Text(
-                    l10n.recalibrateDescription,
+                    currentMode == ProtectionMode.pocket
+                        ? l10n.recalibratePocketDescription
+                        : l10n.recalibrateDescription,
                     style: TextStyle(color: Colors.white.withValues(alpha: 0.55)),
                   ),
                   trailing: _coordinator.isRecalibrating

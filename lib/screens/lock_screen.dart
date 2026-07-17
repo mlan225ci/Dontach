@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:dontach/l10n/app_localizations.dart';
 
 import '../services/protection_coordinator.dart';
@@ -14,7 +13,6 @@ class LockScreen extends StatefulWidget {
 }
 
 class _LockScreenState extends State<LockScreen> {
-  final PinService _pinService = PinService();
   final ProtectionCoordinator _coordinator = ProtectionCoordinator.instance;
 
   String _currentPin = '';
@@ -26,7 +24,6 @@ class _LockScreenState extends State<LockScreen> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     _coordinator.addListener(_onCoordinatorChanged);
   }
 
@@ -50,10 +47,10 @@ class _LockScreenState extends State<LockScreen> {
       _errorText = null;
     });
 
-    _coordinator.stopAlarmImmediately();
+    _coordinator.stopAlarmAudioOnly();
 
     try {
-      final valid = await _pinService.verifyPin(enteredPin).timeout(
+      final valid = await PinService.instance.verifyPin(enteredPin).timeout(
         const Duration(seconds: 3),
         onTimeout: () => false,
       );
@@ -61,11 +58,6 @@ class _LockScreenState extends State<LockScreen> {
 
       if (valid) {
         await _coordinator.completeUnlock();
-        if (!mounted) return;
-        setState(() {
-          _isVerifying = false;
-          _currentPin = '';
-        });
         return;
       }
 
@@ -77,7 +69,6 @@ class _LockScreenState extends State<LockScreen> {
         _currentPin = '';
         _errorText = AppLocalizations.of(context)!.incorrectCode;
       });
-      HapticFeedback.heavyImpact();
     } catch (_) {
       await _coordinator.resumeAlarmIfLocked();
       if (!mounted) return;

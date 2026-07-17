@@ -104,5 +104,36 @@
   "batteryGuideStep3": "En Pixel: Ajustes → Apps → Dontach → Batería → Sin restricciones.",
   "batteryGuideStep4": "Mantén Dontach abierto mientras la protección esté activa.",
   "batteryOpenSettings": "Abrir ajustes de batería",
-  "batteryRequestExemption": "Permitir Dontach (sin restricción)"
+  "batteryRequestExemption": "Permitir Dontach (sin restricción)",
+  "protectionMode": "Modo de protección",
+  "modeTable": "En mesa",
+  "modePocket": "En bolsillo",
+  "modeTableDescription": "Teléfono en plano sobre una superficie. La alarma se activa si se levanta.",
+  "modePocketDescription": "Teléfono en bolsillo o bolso. La alarma se activa si lo arrancan o lo sacan.",
+  "protectionActivePocket": "Protección de bolsillo activa",
+  "calibratingPocket": "Calibrando en bolsillo...",
+  "placePhoneInPocket": "Mantén el teléfono en el bolsillo.\nLa alarma se activa si lo sacan.",
+  "recalibratePocketDescription": "Mantén el teléfono quieto en el bolsillo y recalibra.",
+  "settingsAlarm": "Alarma",
+  "alarmVolume": "Volumen de la alarma",
+  "alarmVolumeDescription": "Ajusta el volumen de la sirena cuando se detecta una intrusión.",
+  "testAlarmVolume": "Probar volumen",
+  "volumeMin": "0 %",
+  "volumeMax": "100 %",
+  "volumeMuted": "Silencio",
+  "volumeKnobHint": "Gira el mando o usa − / +",
+  "pocketPlacementHint": "Coloca el teléfono en el bolsillo o bolso.\nLa calibración empieza en unos segundos…",
+  "pocketPlacementCountdown": "Coloca en bolsillo… {seconds} s",
+  "@pocketPlacementCountdown": {
+    "placeholders": {
+      "seconds": {"type": "int"}
+    }
+  },
+  "tablePlacementHint": "Coloca el teléfono en plano sobre la mesa.\nLa calibración empieza en unos segundos…",
+  "tablePlacementCountdown": "Coloca en plano… {seconds} s",
+  "@tablePlacementCountdown": {
+    "placeholders": {
+      "seconds": {"type": "int"}
+    }
+  }
 }

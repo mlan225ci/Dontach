@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:dontach/l10n/app_localizations.dart';
+
+import '../theme/app_colors.dart';
 
 class LanguageSelectionScreen extends StatelessWidget {
   const LanguageSelectionScreen({
@@ -14,7 +17,7 @@ class LanguageSelectionScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: AppColors.scaffoldDark,
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -39,16 +42,19 @@ class LanguageSelectionScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 32),
                   _LanguageButton(
+                    flag: '🇫🇷',
                     label: l10n.languageFrench,
                     onTap: () => onSelected(const Locale('fr')),
                   ),
                   const SizedBox(height: 12),
                   _LanguageButton(
+                    flag: '🇪🇸',
                     label: l10n.languageSpanish,
                     onTap: () => onSelected(const Locale('es')),
                   ),
                   const SizedBox(height: 12),
                   _LanguageButton(
+                    flag: '🇬🇧',
                     label: l10n.languageEnglish,
                     onTap: () => onSelected(const Locale('en')),
                   ),
@@ -63,28 +69,56 @@ class LanguageSelectionScreen extends StatelessWidget {
 }
 
 class _LanguageButton extends StatelessWidget {
-  const _LanguageButton({required this.label, required this.onTap});
+  const _LanguageButton({
+    required this.flag,
+    required this.label,
+    required this.onTap,
+  });
 
+  final String flag;
   final String label;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: FilledButton(
-        onPressed: onTap,
-        style: FilledButton.styleFrom(
-          backgroundColor: const Color(0xFF2E7D32),
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+    return Semantics(
+      button: true,
+      label: label,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            HapticFeedback.lightImpact();
+            onTap();
+          },
+          borderRadius: BorderRadius.circular(18),
+          child: Ink(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18),
+              gradient: AppColors.brandGreenGradient(),
+              boxShadow: AppColors.brandGreenShadow(),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(flag, style: const TextStyle(fontSize: 28)),
+                  const SizedBox(width: 14),
+                  Text(
+                    label,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.2,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
-        child: Text(
-          label,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
         ),
       ),
     );

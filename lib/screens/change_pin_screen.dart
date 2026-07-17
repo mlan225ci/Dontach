@@ -15,7 +15,7 @@ class ChangePinScreen extends StatefulWidget {
 }
 
 class _ChangePinScreenState extends State<ChangePinScreen> {
-  final PinService _pinService = PinService();
+  final PinService _pinService = PinService.instance;
 
   _ChangePinStep _step = _ChangePinStep.verifyCurrent;
   String _firstPin = '';

@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
+import '../models/alarm_settings.dart';
 import '../models/capture_settings.dart';
 import '../models/intrusion_event.dart';
 import '../models/schedule_config.dart';
 import '../models/sensitivity_settings.dart';
 import 'alarm_service.dart';
+import 'alarm_settings_storage.dart';
 import 'capture_settings_storage.dart';
 import 'intruder_capture_service.dart';
 import 'intrusion_history_storage.dart';
@@ -27,28 +29,36 @@ class ProtectionCoordinator extends ChangeNotifier {
   final CaptureSettingsStorage captureSettingsStorage = CaptureSettingsStorage();
   final SensitivityStorage sensitivityStorage = SensitivityStorage();
   final IntrusionHistoryStorage intrusionHistoryStorage = IntrusionHistoryStorage();
+  final AlarmSettingsStorage alarmSettingsStorage = AlarmSettingsStorage();
 
   bool isArmed = false;
   bool isCalibrating = false;
   bool isAlarmRinging = false;
   bool isRecalibrating = false;
+  bool isPlacementPending = false;
+  int placementCountdown = 0;
   ScheduleConfig schedule = const ScheduleConfig();
   CaptureSettings captureSettings = const CaptureSettings();
   SensitivitySettings sensitivitySettings = const SensitivitySettings();
+  AlarmSettings alarmSettings = const AlarmSettings();
   List<IntrusionEvent> intrusionHistory = [];
 
   Timer? _scheduleTimer;
+  Timer? _placementTimer;
   bool _handlingIntrusion = false;
   bool _unlockInProgress = false;
+  bool _lockSessionActive = false;
   String? _activeIntrusionId;
 
-  bool get requiresUnlock => isAlarmRinging || LockdownService.instance.isActive;
+  bool get requiresUnlock => _lockSessionActive;
 
   Future<void> initialize() async {
     schedule = await scheduleStorage.load();
     captureSettings = await captureSettingsStorage.load();
     sensitivitySettings = await sensitivityStorage.load();
+    alarmSettings = await alarmSettingsStorage.load();
     intrusionHistory = await intrusionHistoryStorage.load();
+    AlarmService.instance.setVolume(alarmSettings.volume);
     _applySensitivityToDetector();
     _startScheduleMonitor();
     LockdownService.instance.onUnlocked = _handleUnlock;
@@ -56,10 +66,7 @@ class ProtectionCoordinator extends ChangeNotifier {
   }
 
   void _applySensitivityToDetector() {
-    detector.applyThresholds(
-      rotationThreshold: sensitivitySettings.level.rotationThreshold,
-      angleThreshold: sensitivitySettings.level.angleThreshold,
-    );
+    detector.applySettings(sensitivitySettings);
   }
 
   void _startScheduleMonitor() {
@@ -96,14 +103,30 @@ class ProtectionCoordinator extends ChangeNotifier {
     await sensitivityStorage.save(settings);
     _applySensitivityToDetector();
 
-    if (isArmed && !isCalibrating && !isRecalibrating) {
+    if (isArmed && !isCalibrating && !isRecalibrating && !isPlacementPending) {
       await recalibrateSensors();
     }
     notifyListeners();
   }
 
+  Future<void> updateAlarmSettings(AlarmSettings settings) async {
+    alarmSettings = settings;
+    AlarmService.instance.setVolume(settings.volume);
+    await alarmSettingsStorage.save(settings);
+    notifyListeners();
+  }
+
+  Future<void> previewAlarmVolume() async {
+    await AlarmService.instance.preview();
+  }
+
+  Future<void> updateProtectionMode(ProtectionMode mode) async {
+    if (isArmed || isCalibrating || isAlarmRinging || isPlacementPending) return;
+    await updateSensitivity(sensitivitySettings.copyWith(mode: mode));
+  }
+
   Future<void> recalibrateSensors() async {
-    if (!isArmed || isCalibrating || isRecalibrating) return;
+    if (!isArmed || isCalibrating || isRecalibrating || isPlacementPending) return;
 
     isRecalibrating = true;
     notifyListeners();
@@ -137,14 +160,62 @@ class ProtectionCoordinator extends ChangeNotifier {
   }
 
   Future<void> setArmed(bool armed, {bool fromSchedule = false}) async {
-    if (isCalibrating) return;
-
     if (!armed) {
       await _disarm();
       notifyListeners();
       return;
     }
 
+    if (isCalibrating || isPlacementPending) return;
+
+    await _startPlacementCountdown();
+  }
+
+  int _placementSecondsForMode(ProtectionMode mode) {
+    return mode == ProtectionMode.pocket ? 4 : 3;
+  }
+
+  Future<void> _startPlacementCountdown() async {
+    _cancelPlacementTimer();
+    isPlacementPending = true;
+    placementCountdown = _placementSecondsForMode(sensitivitySettings.mode);
+    notifyListeners();
+
+    final completer = Completer<void>();
+    _placementTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      placementCountdown--;
+      notifyListeners();
+
+      if (placementCountdown <= 0) {
+        timer.cancel();
+        _placementTimer = null;
+        if (!completer.isCompleted) completer.complete();
+      }
+    });
+
+    await completer.future;
+    if (!isPlacementPending) return;
+
+    isPlacementPending = false;
+    placementCountdown = 0;
+
+    try {
+      await _finishArming();
+    } catch (error) {
+      debugPrint('ProtectionCoordinator._startPlacementCountdown failed: $error');
+      await _disarm();
+      isCalibrating = false;
+      notifyListeners();
+      rethrow;
+    }
+  }
+
+  void _cancelPlacementTimer() {
+    _placementTimer?.cancel();
+    _placementTimer = null;
+  }
+
+  Future<void> _finishArming() async {
     isCalibrating = true;
     notifyListeners();
 
@@ -155,18 +226,19 @@ class ProtectionCoordinator extends ChangeNotifier {
       await detector.start(onPickup: _handleIntrusion);
       await WakelockPlus.enable();
       isArmed = true;
-      isCalibrating = false;
-      notifyListeners();
     } catch (error) {
-      debugPrint('ProtectionCoordinator.setArmed failed: $error');
-      await _disarm();
+      debugPrint('ProtectionCoordinator._finishArming failed: $error');
+      rethrow;
+    } finally {
       isCalibrating = false;
       notifyListeners();
-      rethrow;
     }
   }
 
   Future<void> _disarm() async {
+    _cancelPlacementTimer();
+    isPlacementPending = false;
+    placementCountdown = 0;
     await _silenceAlarmCompletely();
     await detector.stop();
     if (LockdownService.instance.isActive) {
@@ -175,6 +247,7 @@ class ProtectionCoordinator extends ChangeNotifier {
     await intruderCapture.release();
     await WakelockPlus.disable();
     isArmed = false;
+    _lockSessionActive = false;
     _unlockInProgress = false;
     _activeIntrusionId = null;
     notifyListeners();
@@ -187,14 +260,14 @@ class ProtectionCoordinator extends ChangeNotifier {
     await AlarmService.instance.stop();
   }
 
-  void stopAlarmImmediately() {
+  void stopAlarmAudioOnly() {
     isAlarmRinging = false;
     AlarmService.instance.stopImmediate();
     notifyListeners();
   }
 
   Future<void> resumeAlarmIfLocked() async {
-    if (_unlockInProgress || !LockdownService.instance.isActive || isAlarmRinging) {
+    if (_unlockInProgress || !_lockSessionActive || isAlarmRinging) {
       return;
     }
     isAlarmRinging = true;
@@ -208,7 +281,7 @@ class ProtectionCoordinator extends ChangeNotifier {
     if (!schedule.enabled) return;
 
     final shouldArm = schedule.isActiveAt(DateTime.now());
-    if (shouldArm && !isArmed && !isCalibrating && !isAlarmRinging) {
+    if (shouldArm && !isArmed && !isCalibrating && !isAlarmRinging && !isPlacementPending) {
       await setArmed(true, fromSchedule: autoOnly);
     } else if (!shouldArm && isArmed && autoOnly) {
       await setArmed(false, fromSchedule: true);
@@ -218,6 +291,7 @@ class ProtectionCoordinator extends ChangeNotifier {
   Future<void> _handleIntrusion() async {
     if (_unlockInProgress || _handlingIntrusion || isAlarmRinging) return;
     _handlingIntrusion = true;
+    _lockSessionActive = true;
     isAlarmRinging = true;
 
     final event = IntrusionEvent(
@@ -232,12 +306,13 @@ class ProtectionCoordinator extends ChangeNotifier {
 
     try {
       await AlarmService.instance.play();
-      if (_unlockInProgress || !isAlarmRinging) {
+      if (_unlockInProgress || !_lockSessionActive) {
         await AlarmService.instance.stop();
         return;
       }
       notifyListeners();
-      unawaited(LockdownService.instance.activate());
+      await LockdownService.instance.activate();
+      if (_unlockInProgress || !_lockSessionActive) return;
       unawaited(_captureIntruderPhoto());
     } catch (error, stackTrace) {
       debugPrint('ProtectionCoordinator._handleIntrusion failed: $error');
@@ -270,6 +345,7 @@ class ProtectionCoordinator extends ChangeNotifier {
     await WakelockPlus.disable();
 
     isArmed = false;
+    _lockSessionActive = false;
     _handlingIntrusion = false;
     _unlockInProgress = false;
     _activeIntrusionId = null;
@@ -296,6 +372,7 @@ class ProtectionCoordinator extends ChangeNotifier {
   @override
   void dispose() {
     _scheduleTimer?.cancel();
+    _cancelPlacementTimer();
     super.dispose();
   }
 }

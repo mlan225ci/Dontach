@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/foundation.dart';
@@ -17,8 +18,28 @@ class AlarmService {
   bool _configured = false;
   bool _isPlaying = false;
   int _operationId = 0;
+  double _uiVolume = 0.55;
 
   bool get isPlaying => _isPlaying;
+  double get uiVolume => _uiVolume;
+
+  /// Maps UI slider [0..1] to player gain.
+  /// 10 % remains audible; 100 % is loud but not painful.
+  static double effectiveVolume(double uiVolume) {
+    final t = uiVolume.clamp(0.0, 1.0);
+    if (t <= 0.0) return 0.0;
+    const floor = 0.06;
+    const ceiling = 0.82;
+    final curved = math.pow(t, 1.15).toDouble();
+    return floor + curved * (ceiling - floor);
+  }
+
+  void setVolume(double uiVolume) {
+    _uiVolume = uiVolume.clamp(0.0, 1.0);
+    if (_isPlaying) {
+      unawaited(_player.setVolume(effectiveVolume(_uiVolume)));
+    }
+  }
 
   Future<void> _ensureSessionActive() async {
     final session = await AudioSession.instance;
@@ -54,6 +75,7 @@ class AlarmService {
   Future<void> play() async {
     final operationId = ++_operationId;
     _isPlaying = false;
+    final gain = effectiveVolume(_uiVolume);
 
     for (var attempt = 0; attempt < 2; attempt++) {
       if (operationId != _operationId) return;
@@ -64,7 +86,7 @@ class AlarmService {
 
         await _player.stop();
         await _player.setLoopMode(LoopMode.one);
-        await _player.setVolume(1.0);
+        await _player.setVolume(gain);
         await _player.setAsset('assets/sounds/warning_alarm.mp3');
         await _player.seek(Duration.zero);
         await _player.play();
@@ -92,6 +114,28 @@ class AlarmService {
     debugPrint('AlarmService.play: unable to start alarm after retries.');
   }
 
+  Future<void> preview() async {
+    final operationId = ++_operationId;
+    final gain = effectiveVolume(_uiVolume);
+    if (gain <= 0) return;
+
+    try {
+      await _ensureSessionActive();
+      await _player.stop();
+      await _player.setLoopMode(LoopMode.off);
+      await _player.setVolume(gain);
+      await _player.setAsset('assets/sounds/warning_alarm.mp3');
+      await _player.seek(Duration.zero);
+      await _player.play();
+      await Future<void>.delayed(const Duration(seconds: 2));
+      if (operationId == _operationId) {
+        await _player.stop();
+      }
+    } catch (error) {
+      debugPrint('AlarmService.preview failed: $error');
+    }
+  }
+
   Future<void> _startVibration(int operationId) async {
     if (operationId != _operationId) return;
     if (!await Vibration.hasVibrator()) return;
@@ -99,7 +143,6 @@ class AlarmService {
     await Vibration.cancel();
     if (operationId != _operationId) return;
 
-    // repeat: -1 = jouer le pattern une seule fois (pas de boucle infinie).
     await Vibration.vibrate(
       pattern: [0, 700, 250, 700, 250, 700],
       repeat: -1,

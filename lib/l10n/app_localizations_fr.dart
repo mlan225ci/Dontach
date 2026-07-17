@@ -325,4 +325,78 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get batteryRequestExemption => 'Autoriser Dontach (sans restriction)';
+
+  @override
+  String get protectionMode => 'Mode de protection';
+
+  @override
+  String get modeTable => 'Sur table';
+
+  @override
+  String get modePocket => 'En poche';
+
+  @override
+  String get modeTableDescription =>
+      'Téléphone à plat sur une surface. L\'alarme se déclenche s\'il est soulevé.';
+
+  @override
+  String get modePocketDescription =>
+      'Téléphone en poche ou sac. L\'alarme se déclenche en cas d\'arrachage ou de sortie.';
+
+  @override
+  String get protectionActivePocket => 'Protection poche active';
+
+  @override
+  String get calibratingPocket => 'Calibration en poche...';
+
+  @override
+  String get placePhoneInPocket =>
+      'Gardez le téléphone en poche.\nL\'alarme se déclenche s\'il est retiré.';
+
+  @override
+  String get recalibratePocketDescription =>
+      'Gardez le téléphone immobile en poche, puis recalibrez.';
+
+  @override
+  String get settingsAlarm => 'Alarme';
+
+  @override
+  String get alarmVolume => 'Volume de l\'alarme';
+
+  @override
+  String get alarmVolumeDescription =>
+      'Régle le volume de la sirène lors d\'une intrusion.';
+
+  @override
+  String get testAlarmVolume => 'Tester le volume';
+
+  @override
+  String get volumeMin => '0 %';
+
+  @override
+  String get volumeMax => '100 %';
+
+  @override
+  String get volumeMuted => 'Silencieux';
+
+  @override
+  String get volumeKnobHint => 'Tournez la molette ou utilisez − / +';
+
+  @override
+  String get pocketPlacementHint =>
+      'Placez le téléphone dans votre poche ou sac.\nCalibration dans quelques secondes…';
+
+  @override
+  String pocketPlacementCountdown(int seconds) {
+    return 'Placez en poche… $seconds s';
+  }
+
+  @override
+  String get tablePlacementHint =>
+      'Posez le téléphone à plat sur la table.\nCalibration dans quelques secondes…';
+
+  @override
+  String tablePlacementCountdown(int seconds) {
+    return 'Posez à plat… $seconds s';
+  }
 }

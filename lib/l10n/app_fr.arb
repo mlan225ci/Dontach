@@ -104,5 +104,36 @@
   "batteryGuideStep3": "Sur Pixel : Paramètres → Apps → Dontach → Batterie → Sans restriction.",
   "batteryGuideStep4": "Gardez Dontach ouvert pendant que la protection est active.",
   "batteryOpenSettings": "Ouvrir les paramètres batterie",
-  "batteryRequestExemption": "Autoriser Dontach (sans restriction)"
+  "batteryRequestExemption": "Autoriser Dontach (sans restriction)",
+  "protectionMode": "Mode de protection",
+  "modeTable": "Sur table",
+  "modePocket": "En poche",
+  "modeTableDescription": "Téléphone à plat sur une surface. L'alarme se déclenche s'il est soulevé.",
+  "modePocketDescription": "Téléphone en poche ou sac. L'alarme se déclenche en cas d'arrachage ou de sortie.",
+  "protectionActivePocket": "Protection poche active",
+  "calibratingPocket": "Calibration en poche...",
+  "placePhoneInPocket": "Gardez le téléphone en poche.\nL'alarme se déclenche s'il est retiré.",
+  "recalibratePocketDescription": "Gardez le téléphone immobile en poche, puis recalibrez.",
+  "settingsAlarm": "Alarme",
+  "alarmVolume": "Volume de l'alarme",
+  "alarmVolumeDescription": "Régle le volume de la sirène lors d'une intrusion.",
+  "testAlarmVolume": "Tester le volume",
+  "volumeMin": "0 %",
+  "volumeMax": "100 %",
+  "volumeMuted": "Silencieux",
+  "volumeKnobHint": "Tournez la molette ou utilisez − / +",
+  "pocketPlacementHint": "Placez le téléphone dans votre poche ou sac.\nCalibration dans quelques secondes…",
+  "pocketPlacementCountdown": "Placez en poche… {seconds} s",
+  "@pocketPlacementCountdown": {
+    "placeholders": {
+      "seconds": {"type": "int"}
+    }
+  },
+  "tablePlacementHint": "Posez le téléphone à plat sur la table.\nCalibration dans quelques secondes…",
+  "tablePlacementCountdown": "Posez à plat… {seconds} s",
+  "@tablePlacementCountdown": {
+    "placeholders": {
+      "seconds": {"type": "int"}
+    }
+  }
 }

@@ -323,4 +323,78 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get batteryRequestExemption => 'Allow Dontach (no restriction)';
+
+  @override
+  String get protectionMode => 'Protection mode';
+
+  @override
+  String get modeTable => 'On table';
+
+  @override
+  String get modePocket => 'In pocket';
+
+  @override
+  String get modeTableDescription =>
+      'Phone flat on a surface. Alarm triggers when lifted.';
+
+  @override
+  String get modePocketDescription =>
+      'Phone in pocket or bag. Alarm triggers on snatch or extraction.';
+
+  @override
+  String get protectionActivePocket => 'Pocket protection active';
+
+  @override
+  String get calibratingPocket => 'Calibrating in pocket...';
+
+  @override
+  String get placePhoneInPocket =>
+      'Keep the phone in your pocket.\nThe alarm triggers if it is removed.';
+
+  @override
+  String get recalibratePocketDescription =>
+      'Keep the phone still in your pocket, then recalibrate.';
+
+  @override
+  String get settingsAlarm => 'Alarm';
+
+  @override
+  String get alarmVolume => 'Alarm volume';
+
+  @override
+  String get alarmVolumeDescription =>
+      'Adjust the siren volume when an intrusion is detected.';
+
+  @override
+  String get testAlarmVolume => 'Test volume';
+
+  @override
+  String get volumeMin => '0%';
+
+  @override
+  String get volumeMax => '100%';
+
+  @override
+  String get volumeMuted => 'Muted';
+
+  @override
+  String get volumeKnobHint => 'Turn the knob or use − / +';
+
+  @override
+  String get pocketPlacementHint =>
+      'Place the phone in your pocket or bag.\nCalibration starts in a few seconds…';
+
+  @override
+  String pocketPlacementCountdown(int seconds) {
+    return 'Place in pocket… ${seconds}s';
+  }
+
+  @override
+  String get tablePlacementHint =>
+      'Place the phone flat on the table.\nCalibration starts in a few seconds…';
+
+  @override
+  String tablePlacementCountdown(int seconds) {
+    return 'Place flat… ${seconds}s';
+  }
 }

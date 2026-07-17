@@ -14,7 +14,7 @@ class SetupPinScreen extends StatefulWidget {
 }
 
 class _SetupPinScreenState extends State<SetupPinScreen> {
-  final PinService _pinService = PinService();
+  final PinService _pinService = PinService.instance;
 
   String _firstPin = '';
   String _currentPin = '';
